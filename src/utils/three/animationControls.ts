@@ -29,7 +29,7 @@ export const animateRings = (rings: Ring[]): void => {
 
 export const animateStreamParticles = (
   streamParticles: StreamParticle[],
-  offsetX: number = 1.5
+  offsetX: number = 3.5
 ): void => {
   streamParticles.forEach((stream) => {
     const positions = stream.points.geometry.attributes.position.array as Float32Array;

@@ -11,7 +11,7 @@ const OrbiVisualization = () => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const offsetX = 1.5; // Common offset value
+    const offsetX = 3.5; // Updated offset for rightward positioning (was 1.5)
     
     // Setup scene, camera, and renderer
     const { scene, camera, renderer } = setupScene(container, offsetX);

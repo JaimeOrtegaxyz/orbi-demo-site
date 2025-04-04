@@ -14,7 +14,7 @@ export const createRing = (
   thickness: number,
   particleCount: number,
   color: number,
-  offsetX: number = 1.5
+  offsetX: number = 3.5
 ): Ring => {
   const particles = new THREE.BufferGeometry();
   const positions: number[] = [];
@@ -60,7 +60,7 @@ export interface StreamParticle {
 export const createDataStreams = (
   scene: THREE.Scene,
   count: number,
-  offsetX: number = 1.5
+  offsetX: number = 3.5
 ): StreamParticle[] => {
   const streamParticles: StreamParticle[] = [];
 
