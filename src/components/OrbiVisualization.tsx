@@ -19,11 +19,11 @@ const OrbiVisualization = () => {
     // Add core sphere
     createCore(scene, offsetX);
 
-    // Create particle rings with Orbi color palette
+    // Create particle rings with desaturated Orbi color palette (60% desaturation)
     const rings = [
-      createRing(1.8, 0.6, 15000, 0xff4500, offsetX), // Main red ring
-      createRing(2.4, 0.3, 10000, 0xff6347, offsetX), // Lighter red ring
-      createRing(1.5, 0.2, 7500, 0xd03e15, offsetX),  // Darker red ring
+      createRing(1.8, 0.6, 15000, 0x996627, offsetX), // Main red ring (desaturated)
+      createRing(2.4, 0.3, 10000, 0x995e4b, offsetX), // Lighter red ring (desaturated)
+      createRing(1.5, 0.2, 7500, 0x7e3a27, offsetX),  // Darker red ring (desaturated)
     ];
     
     // Add all rings to scene
