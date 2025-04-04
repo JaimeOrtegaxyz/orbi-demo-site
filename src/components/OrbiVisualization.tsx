@@ -20,16 +20,17 @@ const OrbiVisualization = () => {
     createCore(scene, offsetX);
 
     // Create particle rings with desaturated Orbi color palette (45% desaturation - 60% original + 15% saturation added back)
+    // Triple the particle count for higher density
     const rings = [
-      createRing(1.8, 0.6, 15000, 0xb27937, offsetX), // Main red ring (desaturated then re-saturated by 15%)
-      createRing(2.4, 0.3, 10000, 0xb26f5a, offsetX), // Lighter red ring (desaturated then re-saturated by 15%)
-      createRing(1.5, 0.2, 7500, 0x96462f, offsetX),  // Darker red ring (desaturated then re-saturated by 15%)
+      createRing(1.8, 0.6, 45000, 0xb27937, offsetX), // Main red ring (desaturated then re-saturated by 15%)
+      createRing(2.4, 0.3, 30000, 0xb26f5a, offsetX), // Lighter red ring (desaturated then re-saturated by 15%)
+      createRing(1.5, 0.2, 22500, 0x96462f, offsetX),  // Darker red ring (desaturated then re-saturated by 15%)
     ];
     
     // Add all rings to scene
     rings.forEach(({ ring }) => scene.add(ring));
 
-    // Add starfield in the background
+    // Add starfield in the background (scaled down in the createStarField function)
     const stars = createStarField(2000, 20, scene, offsetX);
 
     // Setup orbit controls - enable rotation on entire canvas area

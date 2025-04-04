@@ -1,3 +1,4 @@
+
 import * as THREE from "three";
 
 export interface Ring {
@@ -11,7 +12,7 @@ export interface Ring {
 export const createRing = (
   radius: number,
   thickness: number,
-  particleCount: number,
+  particleCount: number, // Note: particleCount will be tripled by the OrbiVisualization component
   color: number,
   offsetX: number = 3.5
 ): Ring => {
@@ -29,7 +30,8 @@ export const createRing = (
     positions.push(x, y, z);
     
     opacities.push(0.8 - Math.random() * 0.3);
-    sizes.push(0.05 + Math.random() * 0.05);
+    // Decrease particle size by 2/3 (multiply by 1/3)
+    sizes.push((0.05 + Math.random() * 0.05) * (1/3));
   }
 
   particles.setAttribute(
@@ -215,10 +217,13 @@ export const createStarField = (
   const starsGeometry = new THREE.BufferGeometry();
   const positions: number[] = [];
 
+  // Scale down the radius to 1/5 of its original size
+  const scaledRadius = radius * 0.2;
+
   for (let i = 0; i < count; i++) {
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos(2 * Math.random() - 1);
-    const r = radius * Math.cbrt(Math.random());
+    const r = scaledRadius * Math.cbrt(Math.random());
     
     const x = r * Math.sin(phi) * Math.cos(theta);
     const y = r * Math.sin(phi) * Math.sin(theta);

@@ -1,4 +1,3 @@
-
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Ring, StreamParticle } from "./particleSystem";
@@ -17,12 +16,10 @@ export const setupControls = (
   
   // Fix to make controls work when clicking on any object
   controls.addEventListener('start', function() {
-    // Set pointer events to none for all objects during drag to allow raycast through them
     domElement.style.pointerEvents = 'auto';
   });
 
   controls.addEventListener('end', function() {
-    // Reset pointer events after drag
     domElement.style.pointerEvents = 'auto';
   });
   
