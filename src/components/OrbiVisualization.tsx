@@ -1,8 +1,8 @@
 
 import { useEffect, useRef } from "react";
 import { setupScene, createCore } from "@/utils/three/coreSetup";
-import { createRing, createDataStreams } from "@/utils/three/particleSystem";
-import { setupControls, animateRings, animateStreamParticles } from "@/utils/three/animationControls";
+import { createRing } from "@/utils/three/particleSystem";
+import { setupControls, animateRings } from "@/utils/three/animationControls";
 
 const OrbiVisualization = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -11,7 +11,7 @@ const OrbiVisualization = () => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const offsetX = 3.5; // Updated offset for rightward positioning (was 1.5)
+    const offsetX = 3.5; // Offset for rightward positioning
     
     // Setup scene, camera, and renderer
     const { scene, camera, renderer } = setupScene(container, offsetX);
@@ -29,10 +29,7 @@ const OrbiVisualization = () => {
     // Add all rings to scene
     rings.forEach(({ ring }) => scene.add(ring));
 
-    // Create data streams
-    const streamParticles = createDataStreams(scene, 5, offsetX);
-
-    // Setup orbit controls
+    // Setup orbit controls - enable rotation on entire canvas area
     const controls = setupControls(camera, renderer.domElement);
 
     // Handle window resize
@@ -50,12 +47,9 @@ const OrbiVisualization = () => {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Animate rings
+      // Animate rings with 85% slower speed
       animateRings(rings);
       
-      // Animate stream particles
-      animateStreamParticles(streamParticles, offsetX);
-
       // Update controls
       controls.update();
       

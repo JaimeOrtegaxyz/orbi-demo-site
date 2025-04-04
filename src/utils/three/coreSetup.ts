@@ -29,19 +29,19 @@ export const setupScene = (
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
   
-  // Change 3: Enable shadows
+  // Enable shadows
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   
   container.appendChild(renderer.domElement);
 
-  // Change 1: Make scene darker (reduce ambient light by 40%)
-  const ambientLight = new THREE.AmbientLight(0x1F1F1F); // Reduced from 0x333333
+  // Make scene darker 
+  const ambientLight = new THREE.AmbientLight(0x1F1F1F);
   scene.add(ambientLight);
 
-  // Change 2: Remove directional light and add a single distant sun-like light source
-  const sunLight = new THREE.DirectionalLight(0xFFFFDD, 1.2); // Slightly warm light color
-  sunLight.position.set(100, 20, 50); // Positioned far away
+  // Add a single distant sun-like light source
+  const sunLight = new THREE.DirectionalLight(0xFFFFDD, 1.2);
+  sunLight.position.set(100, 20, 50);
   scene.add(sunLight);
   
   // Setup shadows for sunlight
@@ -50,7 +50,7 @@ export const setupScene = (
   sunLight.shadow.mapSize.height = 1024;
   sunLight.shadow.camera.far = 200;
 
-  // Add subtle environmental hemisphere light to better simulate atmosphere
+  // Add subtle environmental hemisphere light
   const hemiLight = new THREE.HemisphereLight(0x444444, 0x111122, 0.2);
   scene.add(hemiLight);
 
@@ -59,19 +59,22 @@ export const setupScene = (
 
 export const createCore = (scene: THREE.Scene, offsetX: number = 3.5): THREE.Mesh => {
   // Core sphere (representing data core)
-  const coreGeometry = new THREE.SphereGeometry(1.3, 32, 32); // Increased size to fill more vertical space
+  const coreGeometry = new THREE.SphereGeometry(1.3, 32, 32);
+  
+  // Make the sphere 85% darker by adjusting color and emissive properties
+  const darkerColor = 0x260a00; // Much darker red (85% darker than 0xff4500)
   const coreMaterial = new THREE.MeshStandardMaterial({
-    color: 0xff4500, // Orbi's red
+    color: darkerColor,
     roughness: 0.7,
     metalness: 0.3,
-    emissive: 0xff4500,
-    emissiveIntensity: 0.2,
+    emissive: darkerColor, 
+    emissiveIntensity: 0.05, // Reduced emissive intensity by 85%
   });
   
   const core = new THREE.Mesh(coreGeometry, coreMaterial);
-  core.position.x = offsetX; // Position offset
+  core.position.x = offsetX;
   
-  // Change 3: Make the core cast and receive shadows
+  // Make the core cast and receive shadows
   core.castShadow = true;
   core.receiveShadow = true;
   
