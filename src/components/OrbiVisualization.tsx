@@ -11,16 +11,16 @@ const OrbiVisualization = () => {
 
     const container = containerRef.current;
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0A0A0A); // Match our dark background
+    scene.background = null; // Transparent background to overlay on hero section
 
-    // Camera setup
+    // Camera setup - more zoomed in
     const camera = new THREE.PerspectiveCamera(
-      60,
+      50, // Narrower field of view for more zoom
       container.clientWidth / container.clientHeight,
       0.1,
       1000
     );
-    camera.position.set(5, 2, 5);
+    camera.position.set(2.5, 1, 2.5); // Closer position to the core
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -46,6 +46,9 @@ const OrbiVisualization = () => {
       emissiveIntensity: 0.2,
     });
     const core = new THREE.Mesh(coreGeometry, coreMaterial);
+    
+    // Move the core and entire scene to the right
+    core.position.x = 1.5; // Move 15-20% to the right
     scene.add(core);
 
     // Particle rings (data flow visualization)
@@ -75,6 +78,7 @@ const OrbiVisualization = () => {
       });
 
       const ring = new THREE.Points(particles, particleMaterial);
+      ring.position.x = 1.5; // Match the core position offset
       return ring;
     };
 
@@ -105,7 +109,7 @@ const OrbiVisualization = () => {
         const y = Math.sin(t * Math.PI) * 0.5;
         const z = startZ * (1 - t);
 
-        positions[j * 3] = x;
+        positions[j * 3] = x + 1.5; // Offset to match core position
         positions[j * 3 + 1] = y;
         positions[j * 3 + 2] = z;
       }
@@ -130,11 +134,14 @@ const OrbiVisualization = () => {
       });
     }
 
-    // Controls for testing - set to disabled for final implementation
+    // Controls for interactive rotation
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.enabled = false; // Disable interactive controls
+    controls.enableZoom = false; // Disable zoom as requested
+    controls.enablePan = false; // Disable panning
+    controls.rotateSpeed = 0.5; // Adjust rotation speed
+    controls.enabled = true; // Enable interactive controls
 
     // Animation loop
     const animate = () => {
@@ -153,14 +160,14 @@ const OrbiVisualization = () => {
         const positions = stream.points.geometry.attributes.position.array as Float32Array;
         for (let i = 0; i < positions.length; i += 3) {
           // Move particles along their path
-          const x = positions[i];
+          const x = positions[i] - 1.5; // Adjust for offset
           const z = positions[i + 2];
           const dist = Math.sqrt(x * x + z * z);
 
           if (dist < 0.2) {
             // Reset particle to outside when it reaches the core
             const angle = Math.atan2(z, x);
-            positions[i] = Math.cos(angle) * 8;
+            positions[i] = Math.cos(angle) * 8 + 1.5; // Add offset back
             positions[i + 2] = Math.sin(angle) * 8;
             positions[i + 1] = 0;
           } else {
