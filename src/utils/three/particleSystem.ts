@@ -239,7 +239,7 @@ export const createStarField = (
 
   const starsMaterial = new THREE.PointsMaterial({
     color: 0x262626,
-    size: 0.05,
+    size: 0.0025, // Reduced to 5% of previous size (was 0.05)
     transparent: true,
     opacity: 0.7,
     sizeAttenuation: true
