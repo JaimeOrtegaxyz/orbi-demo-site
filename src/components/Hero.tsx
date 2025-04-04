@@ -4,7 +4,7 @@ import OrbiVisualization from "./OrbiVisualization";
 
 const Hero = () => {
   return (
-    <section className="pt-40 pb-32 hero-gradient relative overflow-hidden">
+    <section className="pt-32 pb-20 hero-gradient relative overflow-hidden">
       {/* Add the visualization as a background that covers the entire section */}
       <div className="absolute inset-0 w-full h-full">
         <OrbiVisualization />
@@ -29,6 +29,7 @@ const Hero = () => {
             </div>
           </div>
           
+          {/* We don't need this separate visualization container anymore */}
           <div className="lg:col-span-5 fade-up" style={{
             animationDelay: '0.2s'
           }}>
