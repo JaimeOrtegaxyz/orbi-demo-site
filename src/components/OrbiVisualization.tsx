@@ -1,7 +1,7 @@
 
 import { useEffect, useRef } from "react";
 import { setupScene, createCore } from "@/utils/three/coreSetup";
-import { createRing } from "@/utils/three/particleSystem";
+import { createRing, createStarField } from "@/utils/three/particleSystem";
 import { setupControls, animateRings } from "@/utils/three/animationControls";
 
 const OrbiVisualization = () => {
@@ -19,15 +19,18 @@ const OrbiVisualization = () => {
     // Add core sphere
     createCore(scene, offsetX);
 
-    // Create particle rings with desaturated Orbi color palette (60% desaturation)
+    // Create particle rings with desaturated Orbi color palette (45% desaturation - 60% original + 15% saturation added back)
     const rings = [
-      createRing(1.8, 0.6, 15000, 0x996627, offsetX), // Main red ring (desaturated)
-      createRing(2.4, 0.3, 10000, 0x995e4b, offsetX), // Lighter red ring (desaturated)
-      createRing(1.5, 0.2, 7500, 0x7e3a27, offsetX),  // Darker red ring (desaturated)
+      createRing(1.8, 0.6, 15000, 0xb27937, offsetX), // Main red ring (desaturated then re-saturated by 15%)
+      createRing(2.4, 0.3, 10000, 0xb26f5a, offsetX), // Lighter red ring (desaturated then re-saturated by 15%)
+      createRing(1.5, 0.2, 7500, 0x96462f, offsetX),  // Darker red ring (desaturated then re-saturated by 15%)
     ];
     
     // Add all rings to scene
     rings.forEach(({ ring }) => scene.add(ring));
+
+    // Add starfield in the background
+    const stars = createStarField(2000, 20, scene, offsetX);
 
     // Setup orbit controls - enable rotation on entire canvas area
     const controls = setupControls(camera, renderer.domElement);

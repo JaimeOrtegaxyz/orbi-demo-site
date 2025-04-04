@@ -1,4 +1,3 @@
-
 import * as THREE from "three";
 
 export interface Ring {
@@ -29,9 +28,8 @@ export const createRing = (
     const z = Math.sin(angle) * r;
     positions.push(x, y, z);
     
-    // Add opacity and size attributes for the shader
-    opacities.push(0.8 - Math.random() * 0.3); // Random opacity between 0.5-0.8
-    sizes.push(0.05 + Math.random() * 0.05); // Random size between 0.05-0.1
+    opacities.push(0.8 - Math.random() * 0.3);
+    sizes.push(0.05 + Math.random() * 0.05);
   }
 
   particles.setAttribute(
@@ -47,12 +45,11 @@ export const createRing = (
     new THREE.Float32BufferAttribute(sizes, 1)
   );
 
-  // Change 4: Update shader to handle the directional light and shadows
   const particleMaterial = new THREE.ShaderMaterial({
     transparent: true,
     uniforms: {
       color: { value: new THREE.Color(color) },
-      lightPosition: { value: new THREE.Vector3(100, 20, 50) } // Match sunLight position
+      lightPosition: { value: new THREE.Vector3(100, 20, 50) }
     },
     vertexShader: `
       attribute float opacity;
@@ -62,7 +59,7 @@ export const createRing = (
       varying vec3 vNormal;
       void main() {
         vPosition = position;
-        vNormal = normalize(position); // Use position as normal for sphere-like shading
+        vNormal = normalize(position);
         vOpacity = opacity;
         vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
         gl_PointSize = size * (300.0 / -mvPosition.z);
@@ -76,22 +73,18 @@ export const createRing = (
       varying vec3 vPosition;
       varying vec3 vNormal;
       void main() {
-        // Calculate lighting based on position relative to light
         vec3 lightDir = normalize(lightPosition - vPosition);
         float intensity = max(0.1, dot(vNormal, lightDir));
         
-        // Apply shadows - particles behind the core relative to light
         vec3 toCoreDir = normalize(-vPosition);
         vec3 toLightDir = normalize(lightPosition);
         float shadowFactor = dot(toCoreDir, toLightDir);
-        // Create shadow when particle is behind the core relative to light
         if (length(vPosition) > 1.0 && shadowFactor > 0.8) {
-          intensity *= 0.3; // Darken when in shadow
+          intensity *= 0.3;
         }
         
         gl_FragColor = vec4(color * intensity, vOpacity);
         
-        // Apply depth-based darkening for realism
         float depth = gl_FragCoord.z / gl_FragCoord.w;
         float depthFactor = clamp(1.0 - depth/20.0, 0.5, 1.0);
         gl_FragColor.rgb *= depthFactor;
@@ -100,7 +93,7 @@ export const createRing = (
   });
 
   const ring = new THREE.Points(particles, particleMaterial);
-  ring.position.x = offsetX; // Apply position offset
+  ring.position.x = offsetX;
 
   return {
     ring,
@@ -130,7 +123,6 @@ export const createDataStreams = (
     const opacities = new Float32Array(particleCount);
     const sizes = new Float32Array(particleCount);
 
-    // Create a curved path from outside toward the core
     const angle = (i / count) * Math.PI * 2;
     const startX = Math.cos(angle) * 8;
     const startZ = Math.sin(angle) * 8;
@@ -141,13 +133,12 @@ export const createDataStreams = (
       const y = Math.sin(t * Math.PI) * 0.5;
       const z = startZ * (1 - t);
 
-      positions[j * 3] = x + offsetX; // Apply offset
+      positions[j * 3] = x + offsetX;
       positions[j * 3 + 1] = y;
       positions[j * 3 + 2] = z;
       
-      // Add opacity and size attributes
-      opacities[j] = 0.6 - (t * 0.2); // Fade as particles approach the core
-      sizes[j] = 0.08 + ((1-t) * 0.05); // Larger further from core
+      opacities[j] = 0.6 - (t * 0.2);
+      sizes[j] = 0.08 + ((1-t) * 0.05);
     }
 
     streamGeometry.setAttribute(
@@ -163,7 +154,6 @@ export const createDataStreams = (
       new THREE.BufferAttribute(sizes, 1)
     );
 
-    // Use similar shader material for stream particles
     const material = new THREE.ShaderMaterial({
       transparent: true,
       uniforms: {
@@ -206,4 +196,52 @@ export const createDataStreams = (
   }
 
   return streamParticles;
+};
+
+/**
+ * Creates a starfield of distant particles
+ * @param count Number of stars
+ * @param radius Radius of the star field sphere
+ * @param scene The THREE.Scene to add stars to
+ * @param offsetX X-axis offset for positioning
+ * @returns The star field points object
+ */
+export const createStarField = (
+  count: number,
+  radius: number,
+  scene: THREE.Scene,
+  offsetX: number = 3.5
+): THREE.Points => {
+  const starsGeometry = new THREE.BufferGeometry();
+  const positions: number[] = [];
+
+  for (let i = 0; i < count; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const r = radius * Math.cbrt(Math.random());
+    
+    const x = r * Math.sin(phi) * Math.cos(theta);
+    const y = r * Math.sin(phi) * Math.sin(theta);
+    const z = r * Math.cos(phi);
+    
+    positions.push(x + offsetX, y, z);
+  }
+
+  starsGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(positions, 3)
+  );
+
+  const starsMaterial = new THREE.PointsMaterial({
+    color: 0x262626,
+    size: 0.05,
+    transparent: true,
+    opacity: 0.7,
+    sizeAttenuation: true
+  });
+
+  const stars = new THREE.Points(starsGeometry, starsMaterial);
+  scene.add(stars);
+
+  return stars;
 };

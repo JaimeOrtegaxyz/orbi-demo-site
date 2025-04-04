@@ -15,6 +15,17 @@ export const setupControls = (
   controls.rotateSpeed = 0.5; // Adjust rotation speed
   controls.enabled = true; // Enable interactive controls
   
+  // Fix to make controls work when clicking on any object
+  controls.addEventListener('start', function() {
+    // Set pointer events to none for all objects during drag to allow raycast through them
+    domElement.style.pointerEvents = 'auto';
+  });
+
+  controls.addEventListener('end', function() {
+    // Reset pointer events after drag
+    domElement.style.pointerEvents = 'auto';
+  });
+  
   return controls;
 };
 
