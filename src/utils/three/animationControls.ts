@@ -21,7 +21,9 @@ export const setupControls = (
 export const animateRings = (rings: Ring[]): void => {
   rings[0].ring.rotation.y += 0.001;
   rings[1].ring.rotation.y -= 0.0008;
-  rings[2].ring.rotation.y += 0.0012;
+  
+  // Change 5: Slow down the innermost ring by 70%
+  rings[2].ring.rotation.y += 0.0012 * 0.3; // Reduced by 70%
 
   rings[0].ring.rotation.x = Math.sin(Date.now() * 0.0001) * 0.1;
   rings[1].ring.rotation.x = Math.sin(Date.now() * 0.00012) * 0.05;

@@ -28,15 +28,31 @@ export const setupScene = (
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
+  
+  // Change 3: Enable shadows
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  
   container.appendChild(renderer.domElement);
 
-  // Add lighting
-  const ambientLight = new THREE.AmbientLight(0x333333);
+  // Change 1: Make scene darker (reduce ambient light by 40%)
+  const ambientLight = new THREE.AmbientLight(0x1F1F1F); // Reduced from 0x333333
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(5, 3, 5);
-  scene.add(directionalLight);
+  // Change 2: Remove directional light and add a single distant sun-like light source
+  const sunLight = new THREE.DirectionalLight(0xFFFFDD, 1.2); // Slightly warm light color
+  sunLight.position.set(100, 20, 50); // Positioned far away
+  scene.add(sunLight);
+  
+  // Setup shadows for sunlight
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.width = 1024;
+  sunLight.shadow.mapSize.height = 1024;
+  sunLight.shadow.camera.far = 200;
+
+  // Add subtle environmental hemisphere light to better simulate atmosphere
+  const hemiLight = new THREE.HemisphereLight(0x444444, 0x111122, 0.2);
+  scene.add(hemiLight);
 
   return { scene, camera, renderer };
 };
@@ -54,6 +70,11 @@ export const createCore = (scene: THREE.Scene, offsetX: number = 3.5): THREE.Mes
   
   const core = new THREE.Mesh(coreGeometry, coreMaterial);
   core.position.x = offsetX; // Position offset
+  
+  // Change 3: Make the core cast and receive shadows
+  core.castShadow = true;
+  core.receiveShadow = true;
+  
   scene.add(core);
   
   return core;
