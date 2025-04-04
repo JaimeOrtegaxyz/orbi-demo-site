@@ -1,9 +1,6 @@
-
 import { Button } from "@/components/ui/button";
-
 const Hero = () => {
-  return (
-    <section className="pt-32 pb-20 hero-gradient relative overflow-hidden">
+  return <section className="pt-32 pb-20 hero-gradient relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-6 fade-up">
@@ -23,20 +20,16 @@ const Hero = () => {
             </div>
           </div>
           
-          <div className="lg:col-span-6 fade-up" style={{animationDelay: '0.2s'}}>
+          <div className="lg:col-span-6 fade-up" style={{
+          animationDelay: '0.2s'
+        }}>
             <div className="relative w-full">
               <div className="absolute -z-10 w-full h-full bg-orbi-red/10 rounded-full blur-[100px]"></div>
-              <img 
-                src="/lovable-uploads/92e52ce3-44b1-478b-9073-88d13ea7bf8a.png" 
-                alt="AI Data Intelligence" 
-                className="w-full h-auto rounded-xl shadow-xl"
-              />
+              
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
