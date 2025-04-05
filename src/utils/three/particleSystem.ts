@@ -238,10 +238,10 @@ export const createStarField = (
   );
 
   const starsMaterial = new THREE.PointsMaterial({
-    color: 0x262626,
-    size: 0.0025, // Reduced to 5% of previous size (was 0.05)
+    color: 0x3a3a3a, // Increased brightness from 0x262626 (about 15% brighter)
+    size: 0.0035, // Increased from 0.0025 (40% larger)
     transparent: true,
-    opacity: 0.7,
+    opacity: 0.8, // Increased from 0.7 for more visibility
     sizeAttenuation: true
   });
 
@@ -250,3 +250,4 @@ export const createStarField = (
 
   return stars;
 };
+
