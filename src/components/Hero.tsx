@@ -4,7 +4,7 @@ import OrbiVisualization from "./OrbiVisualization";
 
 const Hero = () => {
   return (
-    <section className="pt-40 pb-32 hero-gradient relative overflow-hidden">
+    <section className="pt-52 pb-40 hero-gradient relative overflow-hidden">
       {/* Add the visualization as a background that covers the entire section */}
       <div className="absolute inset-0 w-full h-full">
         <OrbiVisualization />

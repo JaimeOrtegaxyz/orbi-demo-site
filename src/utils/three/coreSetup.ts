@@ -61,14 +61,17 @@ export const createCore = (scene: THREE.Scene, offsetX: number = 3.5): THREE.Mes
   // Core sphere (representing data core)
   const coreGeometry = new THREE.SphereGeometry(1.3, 32, 32);
   
-  // Make the sphere darker but 15% more saturated (70% darker instead of 85%)
-  const darkerColor = 0x2f0c00; // Slightly more saturated than before (15% saturation added back)
+  // Load the texture for the planet
+  const textureLoader = new THREE.TextureLoader();
+  const planetTexture = textureLoader.load('/lovable-uploads/45d78b1f-6e8b-4a62-8fda-a053a358022e.png');
+  
+  // Create material with the texture
   const coreMaterial = new THREE.MeshStandardMaterial({
-    color: darkerColor,
+    map: planetTexture,
     roughness: 0.7,
     metalness: 0.3,
-    emissive: darkerColor, 
-    emissiveIntensity: 0.05, // Reduced emissive intensity by 85%
+    emissive: 0x2f0c00,
+    emissiveIntensity: 0.05,
   });
   
   const core = new THREE.Mesh(coreGeometry, coreMaterial);
