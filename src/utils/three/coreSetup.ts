@@ -61,15 +61,13 @@ export const createCore = (scene: THREE.Scene, offsetX: number = 3.5): THREE.Mes
   // Core sphere (representing data core)
   const coreGeometry = new THREE.SphereGeometry(1.3, 32, 32);
   
-  // Load the texture for the planet with proper error handling
-  const textureLoader = new THREE.TextureLoader();
-  
   // Create material with initial properties
   const coreMaterial = new THREE.MeshStandardMaterial({
     roughness: 0.7,
     metalness: 0.3,
     emissive: 0x2f0c00,
     emissiveIntensity: 0.05,
+    color: 0xFFFFFF, // Set a base color so it's not just black before texture loads
   });
   
   // Create the core mesh
@@ -83,17 +81,22 @@ export const createCore = (scene: THREE.Scene, offsetX: number = 3.5): THREE.Mes
   // Add to scene immediately
   scene.add(core);
   
+  // Use the currently uploaded image from user
+  const textureUrl = '/lovable-uploads/92e52ce3-44b1-478b-9073-88d13ea7bf8a.png';
+  console.log("Loading texture from:", textureUrl);
+  
   // Load texture and apply it after loading
-  textureLoader.load(
-    '/lovable-uploads/45d78b1f-6e8b-4a62-8fda-a053a358022e.png',
+  new THREE.TextureLoader().load(
+    textureUrl,
     (texture) => {
-      // Apply texture once loaded
+      console.log('Planet texture loaded successfully');
       texture.colorSpace = THREE.SRGBColorSpace;
       coreMaterial.map = texture;
       coreMaterial.needsUpdate = true;
-      console.log('Planet texture loaded successfully');
     },
-    undefined,
+    (xhr) => {
+      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
     (error) => {
       console.error('Error loading planet texture:', error);
     }
