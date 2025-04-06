@@ -1,6 +1,6 @@
 # ORBI website
 
-**URL**: [https://orbi-demo-site.lovable.app/](https://orbi-demo-site.vercel.app/)
+**URL**: [https://orbi-demo-site.vercel.app/](https://orbi-demo-site.vercel.app/)
 
 Website intended for demo purposes.
 
