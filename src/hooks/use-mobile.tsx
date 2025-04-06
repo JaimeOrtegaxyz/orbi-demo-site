@@ -1,3 +1,4 @@
+
 import * as React from "react"
 
 const MOBILE_BREAKPOINT = 768
@@ -17,3 +18,6 @@ export function useIsMobile() {
 
   return !!isMobile
 }
+
+// Threshold to distinguish between horizontal and vertical swipes (in pixels)
+export const TOUCH_DIRECTION_THRESHOLD = 10
