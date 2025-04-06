@@ -14,14 +14,8 @@ export const setupControls = (
   controls.rotateSpeed = 0.5; // Adjust rotation speed
   controls.enabled = true; // Enable interactive controls
   
-  // Fix to make controls work when clicking on any object
-  controls.addEventListener('start', function() {
-    domElement.style.pointerEvents = 'auto';
-  });
-
-  controls.addEventListener('end', function() {
-    domElement.style.pointerEvents = 'auto';
-  });
+  // Make sure controls work everywhere by setting pointer-events to auto
+  domElement.style.pointerEvents = 'auto';
   
   return controls;
 };
