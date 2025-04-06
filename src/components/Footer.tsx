@@ -7,8 +7,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
           <div className="lg:col-span-2">
-            <div className="flex items-center space-x-2 mb-6">
-              <img src="/orbi_logo.png" alt="Orbi Logo" className="h-8 w-8" />
+            <div className="flex items-center mb-6">
               <img src="/orbi_text_w.png" alt="Orbi" className="h-6" />
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
