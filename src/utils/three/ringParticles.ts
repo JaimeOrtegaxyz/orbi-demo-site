@@ -1,4 +1,3 @@
-
 import * as THREE from "three";
 
 export interface Ring {
@@ -29,10 +28,14 @@ export const createRing = (
     const z = Math.sin(angle) * r;
     positions.push(x, y, z);
     
-    // Increase base opacity range from (0.5-0.8) to (0.7-1.0) for better visibility
-    opacities.push(0.7 + Math.random() * 0.3);
-    // Slightly increase particle size for better visibility
-    sizes.push((0.06 + Math.random() * 0.06) * (1/3));
+    // Create more contrast by using a wider opacity range (0.4-1.0) instead of (0.7-1.0)
+    // This keeps the brightest particles bright while making some particles darker
+    opacities.push(0.4 + Math.random() * 0.6);
+    
+    // Reduce particle size by 35% from the current size
+    const baseSize = 0.06 + Math.random() * 0.06;
+    const reducedSize = baseSize * (1/3) * 0.65; // Current size * 0.65 (35% reduction)
+    sizes.push(reducedSize);
   }
 
   particles.setAttribute(
@@ -77,25 +80,25 @@ export const createRing = (
       varying vec3 vNormal;
       void main() {
         vec3 lightDir = normalize(lightPosition - vPosition);
-        // Increase base intensity from 0.3 to 0.5 for better visibility in dark areas
+        // Keep the improved base intensity for better visibility
         float intensity = max(0.5, dot(vNormal, lightDir));
         
-        // Further reduce shadowing effect
+        // Further improve the contrast by enhancing the shadowing effect
         vec3 toCoreDir = normalize(-vPosition);
         vec3 toLightDir = normalize(lightPosition);
         float shadowFactor = dot(toCoreDir, toLightDir);
         if (length(vPosition) > 1.0 && shadowFactor > 0.8) {
-          intensity *= 0.75; // Reduced shadowing effect from 0.6 to 0.75 (less darkness)
+          intensity *= 0.65; // Increased shadowing effect to 0.65 for darker shadows (from 0.75)
         }
         
-        // Increase the overall brightness by applying a multiplier
-        vec3 brightColor = color * intensity * 1.35; // 35% brightness boost
+        // Keep the overall brightness but now with more contrast due to opacity and shadow changes
+        vec3 brightColor = color * intensity * 1.35; // Maintain the 35% brightness boost
         
         gl_FragColor = vec4(brightColor, vOpacity);
         
         float depth = gl_FragCoord.z / gl_FragCoord.w;
-        // Improve depth visibility for distant particles
-        float depthFactor = clamp(1.0 - depth/25.0, 0.65, 1.0); // Adjusted from 0.5 to 0.65 minimum
+        // Maintain the improved depth visibility but with slightly darker minimum
+        float depthFactor = clamp(1.0 - depth/25.0, 0.6, 1.0); // Adjusted from 0.65 to 0.6 minimum
         gl_FragColor.rgb *= depthFactor;
       }
     `
