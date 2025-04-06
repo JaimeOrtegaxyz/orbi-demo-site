@@ -77,7 +77,7 @@
   0% {
     opacity: 0;
   }
-  66% {
+  50% {
     opacity: 0;
   }
   100% {
@@ -90,5 +90,5 @@
 }
 
 .visualization-fade-in {
-  animation: visualizationFadeIn 3s ease-out forwards;
+  animation: visualizationFadeIn 2s ease-out forwards;
 }

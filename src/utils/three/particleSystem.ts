@@ -1,4 +1,3 @@
-
 import * as THREE from "three";
 
 export interface Ring {
@@ -238,10 +237,10 @@ export const createStarField = (
   );
 
   const starsMaterial = new THREE.PointsMaterial({
-    color: 0x3a3a3a, // Increased brightness from 0x262626 (about 15% brighter)
-    size: 0.0035, // Increased from 0.0025 (40% larger)
+    color: 0x5a5a5a, // Increased brightness from 0x3a3a3a (about 50% brighter)
+    size: 0.0035,
     transparent: true,
-    opacity: 0.8, // Increased from 0.7 for more visibility
+    opacity: 1.0, // Increased from 0.8 for more visibility
     sizeAttenuation: true
   });
 
