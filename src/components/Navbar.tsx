@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { MenuIcon, Search, X } from "lucide-react";
@@ -32,12 +31,8 @@ const Navbar = () => {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <a href="/" className="flex items-center space-x-2">
-              <div className="relative h-8 w-8 overflow-hidden rounded-full bg-gradient-to-br from-orbi-red to-orange-600">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">O</span>
-                </div>
-              </div>
-              <span className="hidden sm:inline-block font-bold text-xl text-white">Orbi</span>
+              <img src="/orbi_logo.png" alt="Orbi Logo" className="h-8 w-8" />
+              <img src="/orbi_text_w.png" alt="Orbi" className="hidden sm:block h-6" />
             </a>
           </div>
 

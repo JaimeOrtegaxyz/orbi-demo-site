@@ -1,4 +1,3 @@
-
 import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -9,12 +8,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="relative h-8 w-8 overflow-hidden rounded-full bg-gradient-to-br from-orbi-red to-orange-600">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">O</span>
-                </div>
-              </div>
-              <span className="font-bold text-xl text-white">Orbi</span>
+              <img src="/orbi_logo.png" alt="Orbi Logo" className="h-8 w-8" />
+              <img src="/orbi_text_w.png" alt="Orbi" className="h-6" />
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
               Orbi is at the forefront of AI-powered data intelligence, providing solutions for businesses of all sizes to harness the power of their data.
