@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { setupScene, createCore } from "@/utils/three/coreSetup";
 import { createRing, createStarField } from "@/utils/three/particleSystem";
@@ -50,8 +49,8 @@ const OrbiVisualization = () => {
     // Setup orbit controls
     const controls = setupControls(camera, renderer.domElement);
 
-    // Define touch event handlers - making sure they're properly scoped
-    function handleTouchStart(e: TouchEvent) {
+    // Define touch event handlers outside of conditional for cleanup function reference
+    const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 1) {
         touchStartRef.current = {
           x: e.touches[0].clientX,
@@ -59,9 +58,9 @@ const OrbiVisualization = () => {
         };
         isHorizontalSwipeRef.current = null;
       }
-    }
+    };
     
-    function handleTouchMove(e: TouchEvent) {
+    const handleTouchMove = (e: TouchEvent) => {
       if (!touchStartRef.current) return;
       
       const deltaX = Math.abs(e.touches[0].clientX - touchStartRef.current.x);
@@ -74,16 +73,12 @@ const OrbiVisualization = () => {
         // If horizontal movement dominates, capture the event for rotation
         if (deltaX > deltaY) {
           isHorizontalSwipeRef.current = true;
-          if (renderer && renderer.domElement) {
-            renderer.domElement.style.pointerEvents = 'auto';
-          }
+          renderer.domElement.style.pointerEvents = 'auto';
           e.preventDefault();
         } else {
           // Vertical movement dominates, let the browser handle scrolling
           isHorizontalSwipeRef.current = false;
-          if (renderer && renderer.domElement) {
-            renderer.domElement.style.pointerEvents = 'none';
-          }
+          renderer.domElement.style.pointerEvents = 'none';
         }
       }
       
@@ -91,31 +86,23 @@ const OrbiVisualization = () => {
       if (isHorizontalSwipeRef.current === true) {
         e.preventDefault();
       }
-    }
+    };
     
-    function handleTouchEnd() {
+    const handleTouchEnd = () => {
       touchStartRef.current = null;
       isHorizontalSwipeRef.current = null;
-      if (renderer && renderer.domElement) {
-        renderer.domElement.style.pointerEvents = 'auto';
-      }
-    }
+      renderer.domElement.style.pointerEvents = 'auto';
+    };
 
     // On mobile, we need to handle touch events to determine if we should allow scrolling
-    if (isMobile && renderer.domElement) {
-      // Initialize with pointer events enabled
-      renderer.domElement.style.touchAction = 'none';
+    if (isMobile) {
+      // Make the canvas receive pointer events only for horizontal movements
       renderer.domElement.style.pointerEvents = 'auto';
       
-      // Add passive: false to ensure preventDefault works properly
-      renderer.domElement.addEventListener('touchstart', handleTouchStart, { passive: false });
-      renderer.domElement.addEventListener('touchmove', handleTouchMove, { passive: false });
+      // Add touch event listeners
+      renderer.domElement.addEventListener('touchstart', handleTouchStart);
+      renderer.domElement.addEventListener('touchmove', handleTouchMove);
       renderer.domElement.addEventListener('touchend', handleTouchEnd);
-      
-      // Apply these styles to parent container as well to ensure proper event capture
-      if (container) {
-        container.style.touchAction = 'pan-y';
-      }
     }
 
     // Handle window resize
