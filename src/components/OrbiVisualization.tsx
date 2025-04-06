@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { setupScene, createCore } from "@/utils/three/coreSetup";
 import { createRing, createStarField } from "@/utils/three/particleSystem";
@@ -77,7 +76,7 @@ const OrbiVisualization = () => {
     };
   }, []);
 
-  return <div ref={containerRef} className="w-full h-full" />;
+  return <div ref={containerRef} className="w-full h-full visualization-fade-in" />;
 };
 
 export default OrbiVisualization;
