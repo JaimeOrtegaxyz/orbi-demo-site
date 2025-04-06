@@ -30,8 +30,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-2">
-              <img src="/orbi_logo.png" alt="Orbi Logo" className="h-8 w-8" />
+            <a href="/" className="flex items-center">
+              <img src="/orbi_logo.png" alt="Orbi Logo" className="h-8 aspect-square sm:hidden" />
               <img src="/orbi_text_w.png" alt="Orbi" className="hidden sm:block h-6" />
             </a>
           </div>
