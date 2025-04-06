@@ -49,57 +49,55 @@ const OrbiVisualization = () => {
     // Setup orbit controls
     const controls = setupControls(camera, renderer.domElement);
 
+    // Define touch event handlers outside of conditional for cleanup function reference
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        touchStartRef.current = {
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY
+        };
+        isHorizontalSwipeRef.current = null;
+      }
+    };
+    
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!touchStartRef.current) return;
+      
+      const deltaX = Math.abs(e.touches[0].clientX - touchStartRef.current.x);
+      const deltaY = Math.abs(e.touches[0].clientY - touchStartRef.current.y);
+      
+      // If we haven't determined direction yet and moved enough to tell
+      if (isHorizontalSwipeRef.current === null && 
+          (deltaX > TOUCH_DIRECTION_THRESHOLD || deltaY > TOUCH_DIRECTION_THRESHOLD)) {
+        
+        // If horizontal movement dominates, capture the event for rotation
+        if (deltaX > deltaY) {
+          isHorizontalSwipeRef.current = true;
+          renderer.domElement.style.pointerEvents = 'auto';
+          e.preventDefault();
+        } else {
+          // Vertical movement dominates, let the browser handle scrolling
+          isHorizontalSwipeRef.current = false;
+          renderer.domElement.style.pointerEvents = 'none';
+        }
+      }
+      
+      // If already determined to be a horizontal swipe, keep capturing
+      if (isHorizontalSwipeRef.current === true) {
+        e.preventDefault();
+      }
+    };
+    
+    const handleTouchEnd = () => {
+      touchStartRef.current = null;
+      isHorizontalSwipeRef.current = null;
+      renderer.domElement.style.pointerEvents = 'auto';
+    };
+
     // On mobile, we need to handle touch events to determine if we should allow scrolling
     if (isMobile) {
       // Make the canvas receive pointer events only for horizontal movements
       renderer.domElement.style.pointerEvents = 'auto';
-      
-      // Handle touch start
-      const handleTouchStart = (e: TouchEvent) => {
-        if (e.touches.length === 1) {
-          touchStartRef.current = {
-            x: e.touches[0].clientX,
-            y: e.touches[0].clientY
-          };
-          isHorizontalSwipeRef.current = null;
-        }
-      };
-      
-      // Handle touch move
-      const handleTouchMove = (e: TouchEvent) => {
-        if (!touchStartRef.current) return;
-        
-        const deltaX = Math.abs(e.touches[0].clientX - touchStartRef.current.x);
-        const deltaY = Math.abs(e.touches[0].clientY - touchStartRef.current.y);
-        
-        // If we haven't determined direction yet and moved enough to tell
-        if (isHorizontalSwipeRef.current === null && 
-            (deltaX > TOUCH_DIRECTION_THRESHOLD || deltaY > TOUCH_DIRECTION_THRESHOLD)) {
-          
-          // If horizontal movement dominates, capture the event for rotation
-          if (deltaX > deltaY) {
-            isHorizontalSwipeRef.current = true;
-            renderer.domElement.style.pointerEvents = 'auto';
-            e.preventDefault();
-          } else {
-            // Vertical movement dominates, let the browser handle scrolling
-            isHorizontalSwipeRef.current = false;
-            renderer.domElement.style.pointerEvents = 'none';
-          }
-        }
-        
-        // If already determined to be a horizontal swipe, keep capturing
-        if (isHorizontalSwipeRef.current === true) {
-          e.preventDefault();
-        }
-      };
-      
-      // Handle touch end
-      const handleTouchEnd = () => {
-        touchStartRef.current = null;
-        isHorizontalSwipeRef.current = null;
-        renderer.domElement.style.pointerEvents = 'auto';
-      };
       
       // Add touch event listeners
       renderer.domElement.addEventListener('touchstart', handleTouchStart);
