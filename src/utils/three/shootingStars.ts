@@ -2,11 +2,13 @@
 import * as THREE from "three";
 
 export interface ShootingStar {
-  line: THREE.Line;
+  points: THREE.Points;
+  line?: THREE.Line; // Keep for backwards compatibility
   velocity: THREE.Vector3;
   progress: number;
   lifetime: number;
   active: boolean;
+  length: number; // Trail length
 }
 
 /**
@@ -21,29 +23,48 @@ export const createShootingStar = (
   offsetX: number = 3.5,
   planetRadius: number = 1.3
 ): ShootingStar => {
-  // Define shooting star material
-  const material = new THREE.LineBasicMaterial({
-    color: 0xffffff,
+  // Define the number of particles in the trail
+  const trailSegments = 20;
+  
+  // Create buffer geometry for the particles
+  const positions = new Float32Array(trailSegments * 3);
+  const colors = new Float32Array(trailSegments * 3);
+  
+  // Initialize all positions to the same point (will be updated later)
+  for (let i = 0; i < trailSegments; i++) {
+    positions[i * 3] = 0;
+    positions[i * 3 + 1] = 0;
+    positions[i * 3 + 2] = 0;
+    
+    // Set colors with full transparency initially
+    colors[i * 3] = 1; // R
+    colors[i * 3 + 1] = 1; // G
+    colors[i * 3 + 2] = 1; // B
+  }
+  
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  
+  // Create point material with vertex colors
+  const material = new THREE.PointsMaterial({
+    size: 0.05,
+    vertexColors: true,
     transparent: true,
     opacity: 0,
-    linewidth: 1
+    blending: THREE.AdditiveBlending,
   });
-
-  // Create line geometry - will be positioned later when activated
-  const points = [
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0)
-  ];
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const line = new THREE.Line(geometry, material);
-  scene.add(line);
-
+  
+  const points = new THREE.Points(geometry, material);
+  scene.add(points);
+  
   return {
-    line,
+    points,
     velocity: new THREE.Vector3(0, 0, 0),
     progress: 0,
     lifetime: 0,
-    active: false
+    active: false,
+    length: trailSegments
   };
 };
 
@@ -58,38 +79,66 @@ export const updateShootingStar = (star: ShootingStar, deltaTime: number): boole
 
   star.progress += deltaTime / star.lifetime;
   
-  // Calculate opacity based on progress (fade in/out)
-  let opacity = 1.0;
+  // Calculate overall opacity based on progress (fade in/out of entire object)
+  let globalOpacity = 1.0;
   const fadeTime = 0.3 / star.lifetime; // 0.3s fade time normalized to lifetime
   
   if (star.progress < fadeTime) {
     // Fade in
-    opacity = star.progress / fadeTime;
+    globalOpacity = star.progress / fadeTime;
   } else if (star.progress > (1 - fadeTime)) {
     // Fade out
-    opacity = (1 - star.progress) / fadeTime;
+    globalOpacity = (1 - star.progress) / fadeTime;
   }
   
-  // Update opacity
-  (star.line.material as THREE.LineBasicMaterial).opacity = opacity;
-  
-  // Update position
-  const points = star.line.geometry.attributes.position.array as Float32Array;
-  const startPoint = new THREE.Vector3(points[0], points[1], points[2]);
-  const endPoint = startPoint.clone().add(
-    star.velocity.clone().multiplyScalar(star.progress)
-  );
-  
-  // Update end point
-  points[3] = endPoint.x;
-  points[4] = endPoint.y;
-  points[5] = endPoint.z;
-  star.line.geometry.attributes.position.needsUpdate = true;
+  // Update the star trail with gradient effect
+  if (star.points.geometry instanceof THREE.BufferGeometry) {
+    const positions = star.points.geometry.attributes.position.array as Float32Array;
+    const colors = star.points.geometry.attributes.color.array as Float32Array;
+    
+    // Calculate the current head position
+    const currentProgress = Math.min(1, star.progress * 1.5); // 1.5x multiplier makes trail appear faster
+    const headPosition = new THREE.Vector3(0, 0, 0);
+    
+    // Calculate the head position based on the starting point and velocity
+    headPosition.x = positions[0] + star.velocity.x * currentProgress;
+    headPosition.y = positions[1] + star.velocity.y * currentProgress;
+    headPosition.z = positions[2] + star.velocity.z * currentProgress;
+    
+    // Update all points in the trail
+    for (let i = 0; i < star.length; i++) {
+      // Calculate position along the trail (0 = head, 1 = tail)
+      const trailFactor = i / (star.length - 1);
+      
+      // Position each segment at appropriate distance from the head
+      positions[i * 3] = headPosition.x - (star.velocity.x * currentProgress * trailFactor);
+      positions[i * 3 + 1] = headPosition.y - (star.velocity.y * currentProgress * trailFactor);
+      positions[i * 3 + 2] = headPosition.z - (star.velocity.z * currentProgress * trailFactor);
+      
+      // Apply gradient effect - intensity decreases from head to tail (head = 1.0, tail = 0.5)
+      const intensity = 1.0 - (trailFactor * 0.5); // 50% reduction at tail
+      
+      // Apply overall opacity fade to all trail segments
+      const finalIntensity = intensity * globalOpacity;
+      
+      // Update colors with intensity
+      colors[i * 3] = finalIntensity;     // R
+      colors[i * 3 + 1] = finalIntensity; // G
+      colors[i * 3 + 2] = finalIntensity; // B
+    }
+    
+    // Mark attributes for update
+    star.points.geometry.attributes.position.needsUpdate = true;
+    star.points.geometry.attributes.color.needsUpdate = true;
+    
+    // Update material opacity for the entire trail
+    (star.points.material as THREE.PointsMaterial).opacity = globalOpacity;
+  }
   
   // Return false if the star has completed its lifetime
   if (star.progress >= 1.0) {
     star.active = false;
-    (star.line.material as THREE.LineBasicMaterial).opacity = 0;
+    (star.points.material as THREE.PointsMaterial).opacity = 0;
     return false;
   }
   
@@ -177,15 +226,18 @@ export const activateShootingStar = (
   const speed = 2 + Math.random() * 3; // Units per second
   star.velocity = adjustedDirection.multiplyScalar(speed * star.lifetime);
   
-  // Set the start position
-  const points = star.line.geometry.attributes.position.array as Float32Array;
-  points[0] = startPosition.x;
-  points[1] = startPosition.y;
-  points[2] = startPosition.z;
-  points[3] = startPosition.x;
-  points[4] = startPosition.y;
-  points[5] = startPosition.z;
-  star.line.geometry.attributes.position.needsUpdate = true;
+  // Set all points to the start position initially
+  if (star.points.geometry instanceof THREE.BufferGeometry) {
+    const positions = star.points.geometry.attributes.position.array as Float32Array;
+    
+    for (let i = 0; i < star.length; i++) {
+      positions[i * 3] = startPosition.x;
+      positions[i * 3 + 1] = startPosition.y;
+      positions[i * 3 + 2] = startPosition.z;
+    }
+    
+    star.points.geometry.attributes.position.needsUpdate = true;
+  }
 };
 
 /**
