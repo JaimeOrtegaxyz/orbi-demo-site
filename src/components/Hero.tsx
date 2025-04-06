@@ -37,17 +37,30 @@ const Hero = () => {
             <p className="text-lg text-gray-300 md:pr-10 select-none">
               Unlock the full potential of AI with our advanced data intelligence platform, designed to transform your business operations.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <div className="pointer-events-auto w-full sm:w-auto">
-                <Button className="bg-orbi-red hover:bg-orbi-red/90 text-white px-8 py-6 rounded-lg text-lg w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 items-center">
+              <div className="pointer-events-auto w-auto">
+                <Button className="bg-orbi-red hover:bg-orbi-red/90 text-white px-8 py-6 rounded-lg text-lg min-w-[160px]">
                   Get Started
                 </Button>
               </div>
-              <div className="pointer-events-auto w-full sm:w-auto">
-                <Button variant="outline" className="border-gray-600 text-white hover:bg-gray-800 px-8 py-6 rounded-lg text-lg w-full sm:w-auto">
+              <div className="pointer-events-auto w-auto">
+                <Button variant="outline" className="border-gray-600 text-white hover:bg-gray-800 px-8 py-6 rounded-lg text-lg min-w-[160px]">
                   Watch Demo
                 </Button>
               </div>
+              
+              {/* Scroll down button - only visible on mobile, positioned to the right */}
+              {isMobile && (
+                <div className="pointer-events-auto ml-2">
+                  <button 
+                    onClick={scrollToNextSection}
+                    className="bg-orbi-red hover:bg-orbi-red/90 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg animate-pulse-subtle"
+                    aria-label="Scroll to next section"
+                  >
+                    <ChevronDown size={20} />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           
@@ -59,19 +72,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll down button - only visible on mobile */}
-      {isMobile && (
-        <div className="absolute bottom-10 right-10 z-20 pointer-events-auto">
-          <button 
-            onClick={scrollToNextSection}
-            className="bg-orbi-red hover:bg-orbi-red/90 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg animate-pulse-subtle"
-            aria-label="Scroll to next section"
-          >
-            <ChevronDown size={24} />
-          </button>
-        </div>
-      )}
-      
       <div ref={nextSectionRef} />
     </section>
   );
