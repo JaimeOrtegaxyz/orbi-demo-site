@@ -98,19 +98,18 @@ export const createRing = (
   const ring = new THREE.Points(particles, particleMaterial);
   ring.position.x = offsetX;
 
-  // Calculate initial rotation values based on the 1.5 minute mark
-  // 1.5 minutes = 90 seconds
-  // For the first ring: 90 seconds * 0.0005 rotation/second = 0.045 radians
-  // For the second ring: 90 seconds * -0.0004 rotation/second = -0.036 radians
-  // For the third ring: 90 seconds * 0.0006 * 0.3 rotation/second = 0.0162 radians
+  // Calculate initial rotation values based on the 2.5 minute mark (150 seconds)
+  // For the first ring: 150 seconds * 0.0005 rotation/second = 0.075 radians
+  // For the second ring: 150 seconds * -0.0004 rotation/second = -0.06 radians
+  // For the third ring: 150 seconds * 0.0006 * 0.3 rotation/second = 0.027 radians
   if (radius === 1.8) { // Main ring (first ring)
-    ring.rotation.y = 0.045; // 90 seconds * 0.0005
-    ring.rotation.x = Math.sin(Date.now() * 0.00005 + 90000 * 0.00005) * 0.1;
+    ring.rotation.y = 0.075; // 150 seconds * 0.0005
+    ring.rotation.x = Math.sin(Date.now() * 0.00005 + 150000 * 0.00005) * 0.1;
   } else if (radius === 2.4) { // Second ring
-    ring.rotation.y = -0.036; // 90 seconds * -0.0004
-    ring.rotation.x = Math.sin(Date.now() * 0.00006 + 90000 * 0.00006) * 0.05;
+    ring.rotation.y = -0.06; // 150 seconds * -0.0004
+    ring.rotation.x = Math.sin(Date.now() * 0.00006 + 150000 * 0.00006) * 0.05;
   } else if (radius === 1.5) { // Third ring
-    ring.rotation.y = 0.0162; // 90 seconds * 0.0006 * 0.3
+    ring.rotation.y = 0.027; // 150 seconds * 0.0006 * 0.3
     ring.rotation.x = 0; // This ring doesn't seem to have x-rotation in the animation code
   }
 
