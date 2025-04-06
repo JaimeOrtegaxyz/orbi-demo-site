@@ -1,3 +1,4 @@
+
 import * as THREE from "three";
 
 export interface Ring {
@@ -75,13 +76,14 @@ export const createRing = (
       varying vec3 vNormal;
       void main() {
         vec3 lightDir = normalize(lightPosition - vPosition);
-        float intensity = max(0.1, dot(vNormal, lightDir));
+        float intensity = max(0.3, dot(vNormal, lightDir));
         
+        // Modified shadow calculation to reduce darkness
         vec3 toCoreDir = normalize(-vPosition);
         vec3 toLightDir = normalize(lightPosition);
         float shadowFactor = dot(toCoreDir, toLightDir);
         if (length(vPosition) > 1.0 && shadowFactor > 0.8) {
-          intensity *= 0.3;
+          intensity *= 0.6; // Reduced shadowing effect from 0.3 to 0.6
         }
         
         gl_FragColor = vec4(color * intensity, vOpacity);
@@ -249,4 +251,5 @@ export const createStarField = (
 
   return stars;
 };
+
 
