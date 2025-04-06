@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import OrbiVisualization from "./OrbiVisualization";
 
@@ -13,10 +12,10 @@ const Hero = () => {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 space-y-6 fade-up">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white select-none">
               Shaping The <span className="text-orbi-red">Next Era of AI</span> Through Data Intelligence
             </h1>
-            <p className="text-lg text-gray-300 md:pr-10">
+            <p className="text-lg text-gray-300 md:pr-10 select-none">
               Unlock the full potential of AI with our advanced data intelligence platform, designed to transform your business operations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -29,7 +28,7 @@ const Hero = () => {
             </div>
           </div>
           
-          <div className="lg:col-span-5 fade-up" style={{
+          <div className="lg:col-span-5 fade-up select-none" style={{
             animationDelay: '0.2s'
           }}>
             {/* Content space for the right side if needed */}
