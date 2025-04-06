@@ -35,7 +35,7 @@ const Hero = () => {
               Shaping The <span className="text-orbi-red">Next Era of AI</span> Through Data Intelligence
             </h1>
             <p className="text-lg text-gray-300 md:pr-10 select-none">
-              Unlock the full potential of AI with our advanced data intelligence platform, designed to transform your business operations.
+              Unlock the full potential of your business with our advanced data intelligence platform.
             </p>
             <div className="flex pt-4 relative">
               {/* Main action buttons in a row */}
