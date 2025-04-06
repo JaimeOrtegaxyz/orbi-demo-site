@@ -43,7 +43,7 @@ const stats = [
   {
     value: "24/7",
     title: "Support Available",
-    description: "Technical assistance whenever you need it"
+    description: "Technical assistance whenever you need"
   },
   {
     value: "3.5M+",
