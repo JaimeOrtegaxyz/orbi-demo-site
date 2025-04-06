@@ -2,7 +2,7 @@
 
 **URL**: [https://orbi-demo-site.vercel.app/](https://orbi-demo-site.vercel.app/)
 
-Website intended for demo purposes.
+This website is intended for demonstration purposes. However, you are welcome to replicate and adapt it as needed for your own use.
 
 ## What technologies are used for this project?
 
