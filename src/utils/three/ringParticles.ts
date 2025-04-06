@@ -29,9 +29,10 @@ export const createRing = (
     const z = Math.sin(angle) * r;
     positions.push(x, y, z);
     
-    opacities.push(0.8 - Math.random() * 0.3);
-    // Decrease particle size by 2/3 (multiply by 1/3)
-    sizes.push((0.05 + Math.random() * 0.05) * (1/3));
+    // Increase base opacity range from (0.5-0.8) to (0.7-1.0) for better visibility
+    opacities.push(0.7 + Math.random() * 0.3);
+    // Slightly increase particle size for better visibility
+    sizes.push((0.06 + Math.random() * 0.06) * (1/3));
   }
 
   particles.setAttribute(
@@ -76,20 +77,25 @@ export const createRing = (
       varying vec3 vNormal;
       void main() {
         vec3 lightDir = normalize(lightPosition - vPosition);
-        float intensity = max(0.3, dot(vNormal, lightDir));
+        // Increase base intensity from 0.3 to 0.5 for better visibility in dark areas
+        float intensity = max(0.5, dot(vNormal, lightDir));
         
-        // Modified shadow calculation to reduce darkness
+        // Further reduce shadowing effect
         vec3 toCoreDir = normalize(-vPosition);
         vec3 toLightDir = normalize(lightPosition);
         float shadowFactor = dot(toCoreDir, toLightDir);
         if (length(vPosition) > 1.0 && shadowFactor > 0.8) {
-          intensity *= 0.6; // Reduced shadowing effect from 0.3 to 0.6
+          intensity *= 0.75; // Reduced shadowing effect from 0.6 to 0.75 (less darkness)
         }
         
-        gl_FragColor = vec4(color * intensity, vOpacity);
+        // Increase the overall brightness by applying a multiplier
+        vec3 brightColor = color * intensity * 1.35; // 35% brightness boost
+        
+        gl_FragColor = vec4(brightColor, vOpacity);
         
         float depth = gl_FragCoord.z / gl_FragCoord.w;
-        float depthFactor = clamp(1.0 - depth/20.0, 0.5, 1.0);
+        // Improve depth visibility for distant particles
+        float depthFactor = clamp(1.0 - depth/25.0, 0.65, 1.0); // Adjusted from 0.5 to 0.65 minimum
         gl_FragColor.rgb *= depthFactor;
       }
     `
@@ -98,20 +104,15 @@ export const createRing = (
   const ring = new THREE.Points(particles, particleMaterial);
   ring.position.x = offsetX;
 
-  // Calculate initial rotation values based on the 3.5 minute mark (210 seconds)
-  // For the first ring: 210 seconds * 0.0005 rotation/second = 0.105 radians
-  // For the second ring: 210 seconds * -0.0004 rotation/second = -0.084 radians
-  // For the third ring: 210 seconds * 0.0006 * 0.3 rotation/second = 0.0378 radians
+  // Use the current rotation values which were working well
   if (radius === 1.8) { // Main ring (first ring)
-    ring.rotation.y = 0.105; // 210 seconds * 0.0005
-    // Added a phase offset to give a more distinct visual difference
+    ring.rotation.y = 0.105; 
     ring.rotation.x = Math.sin(Date.now() * 0.00005 + 210000 * 0.00005) * 0.12;
   } else if (radius === 2.4) { // Second ring
-    ring.rotation.y = -0.084; // 210 seconds * -0.0004
+    ring.rotation.y = -0.084;
     ring.rotation.x = Math.sin(Date.now() * 0.00006 + 210000 * 0.00006) * 0.07;
   } else if (radius === 1.5) { // Third ring
-    ring.rotation.y = 0.0378; // 210 seconds * 0.0006 * 0.3
-    // Add a slight x rotation to the third ring for more visual interest
+    ring.rotation.y = 0.0378;
     ring.rotation.x = 0.02;
   }
 
