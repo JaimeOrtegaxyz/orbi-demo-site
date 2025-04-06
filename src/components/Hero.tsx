@@ -37,27 +37,30 @@ const Hero = () => {
             <p className="text-lg text-gray-300 md:pr-10 select-none">
               Unlock the full potential of AI with our advanced data intelligence platform, designed to transform your business operations.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4 items-center">
-              <div className="pointer-events-auto w-auto">
-                <Button className="bg-orbi-red hover:bg-orbi-red/90 text-white px-8 py-6 rounded-lg text-lg min-w-[160px]">
-                  Get Started
-                </Button>
-              </div>
-              <div className="pointer-events-auto w-auto">
-                <Button variant="outline" className="border-gray-600 text-white hover:bg-gray-800 px-8 py-6 rounded-lg text-lg min-w-[160px]">
-                  Watch Demo
-                </Button>
+            <div className="flex items-center gap-4 pt-4">
+              {/* Main action buttons in a row */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="pointer-events-auto">
+                  <Button className="bg-orbi-red hover:bg-orbi-red/90 text-white px-6 py-6 rounded-lg text-lg min-w-[140px]">
+                    Get Started
+                  </Button>
+                </div>
+                <div className="pointer-events-auto">
+                  <Button variant="outline" className="border-gray-600 text-white hover:bg-gray-800 px-6 py-6 rounded-lg text-lg min-w-[140px]">
+                    Watch Demo
+                  </Button>
+                </div>
               </div>
               
-              {/* Scroll down button - only visible on mobile, positioned to the right */}
+              {/* Scroll down button - only visible on mobile, positioned to the right of action buttons */}
               {isMobile && (
-                <div className="pointer-events-auto ml-2">
+                <div className="pointer-events-auto ml-3 flex-shrink-0">
                   <button 
                     onClick={scrollToNextSection}
-                    className="bg-orbi-red hover:bg-orbi-red/90 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg animate-pulse-subtle"
+                    className="bg-orbi-red hover:bg-orbi-red/90 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg animate-pulse-subtle"
                     aria-label="Scroll to next section"
                   >
-                    <ChevronDown size={20} />
+                    <ChevronDown size={18} />
                   </button>
                 </div>
               )}
