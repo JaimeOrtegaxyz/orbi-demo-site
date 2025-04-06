@@ -1,6 +1,6 @@
 # ORBI website
 
-**URL**: https://orbi-demo-site.lovable.app/
+**URL**: [https://orbi-demo-site.lovable.app/](https://orbi-demo-site.vercel.app/)
 
 Website intended for demo purposes.
 
@@ -13,3 +13,5 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+
+ A shooting star passes through the sky every now and then. You might be lucky enough to see it.
