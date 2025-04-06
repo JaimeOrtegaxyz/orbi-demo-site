@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from "react";
 import { setupScene, createCore } from "@/utils/three/coreSetup";
 import { createRing, createStarField } from "@/utils/three/particleSystem";
@@ -17,11 +18,12 @@ const OrbiVisualization = () => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const offsetX = 3.5; // Offset for rightward positioning
+    // Use a smaller offset on mobile to move the planet more to the left
+    const offsetX = isMobile ? 1.2 : 3.5; 
     const planetRadius = 1.3; // Same as the core radius
     
     // Setup scene, camera, and renderer
-    const { scene, camera, renderer } = setupScene(container, offsetX);
+    const { scene, camera, renderer } = setupScene(container, offsetX, isMobile);
     
     // Add core sphere
     createCore(scene, offsetX);

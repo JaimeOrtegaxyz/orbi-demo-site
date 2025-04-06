@@ -9,7 +9,8 @@ export interface SceneSetup {
 
 export const setupScene = (
   container: HTMLElement,
-  offsetX: number = 3.5  // Increased offset by about 25% of typical viewport width
+  offsetX: number = 3.5, // Offset is now dynamic based on device
+  isMobile: boolean = false
 ): SceneSetup => {
   // Scene setup
   const scene = new THREE.Scene();
@@ -22,7 +23,15 @@ export const setupScene = (
     0.1,
     1000
   );
-  camera.position.set(4, 1, 4); // Even closer position to the core for more zoom
+  
+  // Adjust camera position based on device
+  if (isMobile) {
+    // For mobile, move camera to show more of the planet
+    camera.position.set(3, 1, 4.5);
+  } else {
+    // Original position for desktop
+    camera.position.set(4, 1, 4);
+  }
 
   // Renderer setup
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
