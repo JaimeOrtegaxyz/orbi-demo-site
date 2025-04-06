@@ -217,7 +217,7 @@ export const createStarField = (
   const positions: number[] = [];
 
   // Scale down the radius to 1/5 of its original size
-  const scaledRadius = radius * 0.2;
+  const scaledRadius = radius * 0.26;
 
   for (let i = 0; i < count; i++) {
     const theta = Math.random() * Math.PI * 2;
