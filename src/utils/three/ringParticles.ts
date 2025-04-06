@@ -98,19 +98,21 @@ export const createRing = (
   const ring = new THREE.Points(particles, particleMaterial);
   ring.position.x = offsetX;
 
-  // Calculate initial rotation values based on the 2.5 minute mark (150 seconds)
-  // For the first ring: 150 seconds * 0.0005 rotation/second = 0.075 radians
-  // For the second ring: 150 seconds * -0.0004 rotation/second = -0.06 radians
-  // For the third ring: 150 seconds * 0.0006 * 0.3 rotation/second = 0.027 radians
+  // Calculate initial rotation values based on the 3.5 minute mark (210 seconds)
+  // For the first ring: 210 seconds * 0.0005 rotation/second = 0.105 radians
+  // For the second ring: 210 seconds * -0.0004 rotation/second = -0.084 radians
+  // For the third ring: 210 seconds * 0.0006 * 0.3 rotation/second = 0.0378 radians
   if (radius === 1.8) { // Main ring (first ring)
-    ring.rotation.y = 0.075; // 150 seconds * 0.0005
-    ring.rotation.x = Math.sin(Date.now() * 0.00005 + 150000 * 0.00005) * 0.1;
+    ring.rotation.y = 0.105; // 210 seconds * 0.0005
+    // Added a phase offset to give a more distinct visual difference
+    ring.rotation.x = Math.sin(Date.now() * 0.00005 + 210000 * 0.00005) * 0.12;
   } else if (radius === 2.4) { // Second ring
-    ring.rotation.y = -0.06; // 150 seconds * -0.0004
-    ring.rotation.x = Math.sin(Date.now() * 0.00006 + 150000 * 0.00006) * 0.05;
+    ring.rotation.y = -0.084; // 210 seconds * -0.0004
+    ring.rotation.x = Math.sin(Date.now() * 0.00006 + 210000 * 0.00006) * 0.07;
   } else if (radius === 1.5) { // Third ring
-    ring.rotation.y = 0.027; // 150 seconds * 0.0006 * 0.3
-    ring.rotation.x = 0; // This ring doesn't seem to have x-rotation in the animation code
+    ring.rotation.y = 0.0378; // 210 seconds * 0.0006 * 0.3
+    // Add a slight x rotation to the third ring for more visual interest
+    ring.rotation.x = 0.02;
   }
 
   return {
