@@ -42,9 +42,6 @@ const OrbiVisualization = () => {
     let timeSinceLastStar = 0;
     let lastTime = performance.now();
     
-    // In development mode, show shooting stars more frequently for testing
-    const isDevMode = process.env.NODE_ENV === 'development';
-
     // Setup orbit controls - enable rotation on entire canvas area
     const controls = setupControls(camera, renderer.domElement);
 
@@ -70,27 +67,14 @@ const OrbiVisualization = () => {
       // Animate rings with 85% slower speed
       animateRings(rings);
       
-      // Manage shooting stars - use shortened intervals in dev mode
-      if (isDevMode) {
-        // In dev mode, create shooting stars every 5-10 seconds for easier testing
-        if (!shootingStar.active && timeSinceLastStar > 5 + Math.random() * 5) {
-          activateShootingStar(shootingStar, offsetX, planetRadius);
-          timeSinceLastStar = 0;
-        } else if (shootingStar.active) {
-          updateShootingStar(shootingStar, deltaTime);
-        } else {
-          timeSinceLastStar += deltaTime;
-        }
-      } else {
-        // Normal mode - 30-90 seconds between stars
-        timeSinceLastStar = manageShootingStars(
-          shootingStar, 
-          deltaTime, 
-          timeSinceLastStar, 
-          offsetX, 
-          planetRadius
-        );
-      }
+      // Manage shooting stars - strict 30-90 second intervals
+      timeSinceLastStar = manageShootingStars(
+        shootingStar, 
+        deltaTime, 
+        timeSinceLastStar, 
+        offsetX, 
+        planetRadius
+      );
       
       // Update controls
       controls.update();

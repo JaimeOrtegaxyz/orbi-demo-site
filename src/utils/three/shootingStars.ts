@@ -259,19 +259,28 @@ export const manageShootingStars = (
   // Update existing star if active
   if (star.active) {
     updateShootingStar(star, deltaTime);
-    return timeSinceLastStar + deltaTime;
+    return timeSinceLastStar; // Don't increment time while a star is active
   }
   
-  // Add to the timer
+  // Add to the timer only when no star is active
   timeSinceLastStar += deltaTime;
   
   // Determine if it's time for a new star (30-90 seconds between stars)
   const minInterval = 30;
   const maxInterval = 90;
-  const interval = minInterval + Math.random() * (maxInterval - minInterval);
   
-  if (timeSinceLastStar >= interval) {
+  // Generate a random interval within our range if we haven't already
+  if (!star.hasOwnProperty('nextInterval')) {
+    (star as any).nextInterval = minInterval + Math.random() * (maxInterval - minInterval);
+  }
+  
+  // Check if we've reached the next interval
+  if (timeSinceLastStar >= (star as any).nextInterval) {
     activateShootingStar(star, offsetX, planetRadius);
+    
+    // Generate the next interval for the next star
+    (star as any).nextInterval = minInterval + Math.random() * (maxInterval - minInterval);
+    
     return 0; // Reset the timer
   }
   
