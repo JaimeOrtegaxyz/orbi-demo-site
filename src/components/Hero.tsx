@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import OrbiVisualization from "./OrbiVisualization";
 
@@ -9,7 +10,7 @@ const Hero = () => {
         <OrbiVisualization />
       </div>
       
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 pointer-events-none">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 space-y-6 fade-up">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white select-none">
@@ -19,12 +20,16 @@ const Hero = () => {
               Unlock the full potential of AI with our advanced data intelligence platform, designed to transform your business operations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button className="bg-orbi-red hover:bg-orbi-red/90 text-white px-8 py-6 rounded-lg text-lg">
-                Get Started
-              </Button>
-              <Button variant="outline" className="border-gray-600 text-white hover:bg-gray-800 px-8 py-6 rounded-lg text-lg">
-                Watch Demo
-              </Button>
+              <div className="pointer-events-auto">
+                <Button className="bg-orbi-red hover:bg-orbi-red/90 text-white px-8 py-6 rounded-lg text-lg">
+                  Get Started
+                </Button>
+              </div>
+              <div className="pointer-events-auto">
+                <Button variant="outline" className="border-gray-600 text-white hover:bg-gray-800 px-8 py-6 rounded-lg text-lg">
+                  Watch Demo
+                </Button>
+              </div>
             </div>
           </div>
           
