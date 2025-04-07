@@ -2,8 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import { Brain, Cloud, Database, Lock } from "lucide-react";
+
 const Solutions = () => {
-  return <section className="bg-orbi-black relative py-[60px]">
+  return (
+    <section className="bg-orbi-black py-20">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
           <Badge variant="outline" className="border-orbi-red text-orbi-red mb-4">
@@ -48,11 +50,11 @@ const Solutions = () => {
               </div>
             </div>)}
         </div>
-        
-        
       </div>
-    </section>;
+    </section>
+  );
 };
+
 const solutions = [{
   title: "Data Analysis",
   description: "Extract meaningful insights from complex datasets with our advanced analysis tools powered by the latest machine learning algorithms.",
@@ -82,4 +84,5 @@ const solutions = [{
   // Deep green background
   iconColor: "#4ADE80" // Green icon
 }];
+
 export default Solutions;
