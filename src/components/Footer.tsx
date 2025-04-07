@@ -1,9 +1,10 @@
+
 import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 const Footer = () => {
   return (
-    <footer className="bg-orbi-darkgray py-16">
+    <footer className="bg-orbi-black py-16 border-t border-gray-800">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
           <div className="lg:col-span-2">
@@ -18,7 +19,7 @@ const Footer = () => {
                 <a 
                   key={i}
                   href="#" 
-                  className="w-10 h-10 rounded-full bg-orbi-lightgray flex items-center justify-center hover:bg-orbi-red transition-colors duration-300"
+                  className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-orbi-red transition-colors duration-300"
                 >
                   <Icon size={18} className="text-white" />
                 </a>
