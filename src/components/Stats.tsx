@@ -1,4 +1,6 @@
+
 import { Card } from "@/components/ui/card";
+
 const Stats = () => {
   return <section className="py-16 bg-orbi-darkgray">
       <div className="container mx-auto px-4 md:px-6">
@@ -12,23 +14,28 @@ const Stats = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => <Card key={index} className="bg-white border-0 rounded-xl animate-fade-in" style={{
-          animationDelay: `${index * 0.1}s`
-        }}>
-              <div className="p-6 text-center bg-orbi-red">
+          {stats.map((stat, index) => (
+            <Card 
+              key={index} 
+              className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-800 rounded-xl animate-fade-in"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="p-6 text-center">
                 <div className="mb-3">
-                  <span className="text-4xl md:text-5xl font-bold text-orbi-white">
+                  <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                     {stat.value}
                   </span>
                 </div>
-                <h3 className="text-lg font-medium mb-2 text-orbi-black">{stat.title}</h3>
-                <p className="text-xs text-orbi-darkgray">{stat.description}</p>
+                <h3 className="text-lg font-medium mb-2 text-white">{stat.title}</h3>
+                <p className="text-gray-400 text-xs">{stat.description}</p>
               </div>
-            </Card>)}
+            </Card>
+          ))}
         </div>
       </div>
     </section>;
 };
+
 const stats = [{
   value: "98%",
   title: "Accuracy Rate",
@@ -46,4 +53,5 @@ const stats = [{
   title: "Enterprise Clients",
   description: "Top companies trusting our platform"
 }];
+
 export default Stats;

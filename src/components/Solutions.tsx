@@ -18,16 +18,14 @@ const Solutions = () => {
           </p>
         </div>
         
-        {/* Image section - abstract representation of AI data visualization */}
+        {/* Updated image section with new black planet image */}
         <div className="flex justify-center mb-20">
           <div className="relative w-64 h-64 md:w-80 md:h-80">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-white/10 blur-2xl"></div>
             <img 
-              src="/lovable-uploads/56c2f386-d8c5-46f4-8046-58baab46f86d.png" 
+              src="/lovable-uploads/e6d7d252-4fd5-43f9-938c-146d1de16492.png" 
               alt="AI Visualization" 
-              className="w-full h-full object-cover rounded-full mix-blend-lighten"
+              className="w-full h-full object-contain"
             />
-            <div className="absolute inset-0 rounded-full border border-white/10"></div>
           </div>
         </div>
         
