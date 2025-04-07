@@ -22,7 +22,7 @@ const Solutions = () => {
         <div className="flex justify-center mb-20">
           <div className="relative w-64 h-64 md:w-80 md:h-80">
             <img 
-              src="/lovable-uploads/e6d7d252-4fd5-43f9-938c-146d1de16492.png" 
+              src="/lovable-uploads/ac79ff9c-e486-47e1-9b20-5141e8fb73eb.png" 
               alt="AI Visualization" 
               className="w-full h-full object-contain"
             />
@@ -38,8 +38,8 @@ const Solutions = () => {
             >
               <div className="flex flex-col h-full">
                 <div className="mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gray-900 flex items-center justify-center">
-                    <solution.icon className="text-orbi-red" size={24} />
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: solution.bgColor }}>
+                    <solution.icon className="text-white" size={24} style={{ color: solution.iconColor }} />
                   </div>
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-orbi-red transition-colors">
@@ -70,22 +70,30 @@ const solutions = [
   {
     title: "Data Analysis",
     description: "Extract meaningful insights from complex datasets with our advanced analysis tools powered by the latest machine learning algorithms.",
-    icon: Database
+    icon: Database,
+    bgColor: "#172554", // Deep blue background
+    iconColor: "#60A5FA", // Blue icon
   },
   {
     title: "Neural Network Processing",
     description: "Train and deploy custom neural networks with high performance computation clusters optimized for deep learning workloads.",
-    icon: Brain
+    icon: Brain,
+    bgColor: "#4C1D95", // Deep purple background
+    iconColor: "#C084FC", // Purple icon
   },
   {
     title: "Cloud Intelligence",
     description: "Scale your AI operations seamlessly with our cloud-native platform, offering flexibility and power on demand.",
-    icon: Cloud
+    icon: Cloud,
+    bgColor: "#075985", // Deep cyan background
+    iconColor: "#38BDF8", // Light blue icon
   },
   {
     title: "Secure Data Operations",
     description: "Keep your sensitive data protected with enterprise-grade security measures and compliance with global standards.",
-    icon: Lock
+    icon: Lock,
+    bgColor: "#14532D", // Deep green background
+    iconColor: "#4ADE80", // Green icon
   }
 ];
 

@@ -22,8 +22,8 @@ const FeatureCards = () => {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="p-6 space-y-5">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-900">
-                  <feature.icon className="text-orbi-red" size={24} />
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: feature.bgColor }}>
+                  <feature.icon className="text-white" size={24} style={{ color: feature.iconColor }} />
                 </div>
                 <h3 className="text-xl font-semibold text-white">{feature.title}</h3>
                 <p className="text-gray-400">{feature.description}</p>
@@ -46,16 +46,22 @@ const features = [
     title: "AI-Powered Analytics",
     description: "Leverage advanced AI algorithms to extract actionable insights from your data in real-time.",
     icon: BarChart3,
+    bgColor: "#1E293B", // Dark blue background
+    iconColor: "#3B82F6", // Blue icon
   },
   {
     title: "Neural Networks",
     description: "Our custom neural networks adapt to your specific business needs and learning patterns.",
     icon: Brain,
+    bgColor: "#2D1B14", // Dark brown background
+    iconColor: "#F97316", // Orange icon
   },
   {
     title: "Code Integration",
     description: "Seamless integration with your existing codebase through our developer-friendly API.",
     icon: Code,
+    bgColor: "#1A2E22", // Dark green background
+    iconColor: "#22C55E", // Green icon
   },
 ];
 
