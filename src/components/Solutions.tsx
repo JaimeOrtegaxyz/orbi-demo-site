@@ -1,3 +1,4 @@
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
@@ -5,7 +6,7 @@ import { Brain, Cloud, Database, Lock } from "lucide-react";
 
 const Solutions = () => {
   return (
-    <section className="bg-orbi-black py-20">
+    <section className="bg-orbi-black pt-20 pb-10">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
           <Badge variant="outline" className="border-orbi-red text-orbi-red mb-4">

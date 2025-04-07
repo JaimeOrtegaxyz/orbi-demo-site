@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const CTASection = () => {
   return (
-    <section className="bg-orbi-black py-20">
+    <section className="bg-orbi-black pt-10 pb-20">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-10">
           {/* Left side - Text content */}
