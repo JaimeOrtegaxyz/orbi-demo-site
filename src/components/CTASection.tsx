@@ -5,20 +5,25 @@ const CTASection = () => {
   return (
     <section className="py-20 bg-orbi-black relative">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-            Get Started with Orbi's AI Infrastructure Today
-          </h2>
-          <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
-            Join the companies leveraging our cutting-edge AI technology to drive innovation and achieve unparalleled growth.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button className="bg-orbi-red hover:bg-orbi-red/90 text-white px-8 py-6 text-lg rounded-lg">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-10 relative z-10">
+          {/* Left side - Buttons */}
+          <div className="w-full md:w-2/5 flex flex-col sm:flex-row md:flex-col gap-4 order-2 md:order-1">
+            <Button className="bg-orbi-red hover:bg-orbi-red/90 text-white px-8 py-6 text-lg rounded-lg w-full sm:w-auto">
               Start Free Trial
             </Button>
-            <Button variant="outline" className="border-gray-700 text-white hover:bg-gray-800 px-8 py-6 text-lg rounded-lg">
+            <Button variant="outline" className="border-gray-700 text-white hover:bg-gray-800 px-8 py-6 text-lg rounded-lg w-full sm:w-auto">
               Contact Sales
             </Button>
+          </div>
+          
+          {/* Right side - Text content */}
+          <div className="w-full md:w-3/5 text-left md:text-right order-1 md:order-2">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+              Get Started with Orbi's AI Infrastructure Today
+            </h2>
+            <p className="text-gray-300 text-lg mb-6 md:mb-0 md:ml-auto md:max-w-2xl">
+              Join the companies leveraging our cutting-edge AI technology to drive innovation and achieve unparalleled growth.
+            </p>
           </div>
         </div>
         
