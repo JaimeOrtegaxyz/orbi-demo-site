@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const CTASection = () => {
   return (
-    <section className="bg-orbi-black relative py-[80px]">
+    <section className="bg-orbi-black relative py-20">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-10 relative z-10">
           {/* Left side - Buttons */}
