@@ -21,7 +21,7 @@ const Solutions = () => {
         {/* Updated image section with new black planet image */}
         <div className="flex justify-center mb-20">
           <div className="relative w-64 h-64 md:w-80 md:h-80">
-            <img src="/lovable-uploads/ac79ff9c-e486-47e1-9b20-5141e8fb73eb.png" alt="AI Visualization" className="w-full h-full object-contain" />
+            <img src="/assets/black_planet.png" alt="AI Visualization" className="w-full h-full object-contain" />
           </div>
         </div>
         

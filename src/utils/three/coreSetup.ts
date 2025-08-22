@@ -90,8 +90,8 @@ export const createCore = (scene: THREE.Scene, offsetX: number = 3.5): THREE.Mes
   // Add to scene immediately
   scene.add(core);
   
-  // Use the currently uploaded image from user
-  const textureUrl = '/lovable-uploads/92e52ce3-44b1-478b-9073-88d13ea7bf8a.png';
+  // Use restored planet texture asset
+  const textureUrl = '/assets/planet_texture.png';
   console.log("Loading texture from:", textureUrl);
   
   // Load texture and apply it after loading
